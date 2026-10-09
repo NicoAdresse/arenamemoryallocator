@@ -44,6 +44,7 @@ public:
     ArenaAllocator8(ArenaAllocator8&&) noexcept = default;
     ArenaAllocator8& operator=(ArenaAllocator8&&) noexcept = default;
     
+    // Allocates memory
     auto arenaAlloc(size_t size) -> void*
     {
         uintptr_t currentPtr { reinterpret_cast<uintptr_t>(buffer) + offset };
@@ -59,6 +60,7 @@ public:
         return reinterpret_cast<void*>(alignedPtr);
     }
 
+    // Resets memory
     auto arenaReset() -> void
     {
         offset = 0;
@@ -87,6 +89,7 @@ public:
     ArenaAllocatorDynamic(ArenaAllocatorDynamic&&) noexcept = default;
     ArenaAllocatorDynamic& operator=(ArenaAllocatorDynamic&&) noexcept = default;
 
+    // Allocates memory
     auto arenaAlloc(size_t size, size_t alignment) -> void*
     {
         if (!isPowerOfTwo(alignment)) return nullptr;
@@ -106,6 +109,7 @@ public:
         return ptr;
     }
 
+    // Allocates memory, pads it with 0s
     auto arenaAllocZeroed(size_t size, size_t alignment) -> void*
     {
         void* ptr { arenaAlloc(size, alignment) };
@@ -118,6 +122,7 @@ public:
         return ptr;        
     }
 
+    // Uses templates to allocate memory for non-trivial types
     template <typename T, typename... Args>
     auto create(Args&&... args) -> T*
     {
@@ -130,14 +135,17 @@ public:
         return ::new (rawMem) T(std::forward<Args>(args)...);
     }
 
+    // Resets memory
     auto arenaReset() -> void
     {
         offset = 0;
     }
 };
 
+// Buffer
 static uint8_t buffer[15000];
 
+// Starting point
 extern "C" auto allocator_start() -> void
 {
     auto allocator { ArenaAllocatorDynamic(buffer, sizeof(buffer)) };
