@@ -27,7 +27,7 @@ const MultibootHeader multiboot_header = {
     MULTIBOOT_CHECKSUM
 };
 
-// 8 Bit Only
+// 8 Byte Only
 class ArenaAllocator8
 {
 private:
@@ -67,7 +67,7 @@ public:
     }
 };
 
-// Supports Multiple Bits
+// Supports Multiple Bytes
 class ArenaAllocatorDynamic
 {
 private:
