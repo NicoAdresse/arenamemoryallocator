@@ -146,7 +146,7 @@ public:
 static uint8_t buffer[15000];
 
 // Starting point
-extern "C" auto allocator_start() -> void
+extern "C" auto allocatorStart() -> void
 {
     auto allocator { ArenaAllocatorDynamic(buffer, sizeof(buffer)) };
     [[maybe_unused]] int* myNumber { allocator.create<int>() };

@@ -18,7 +18,7 @@ target_compile_options(arena_allocator_exec PRIVATE
 target_link_options(arena_allocator_exec PRIVATE
     -m32
     -nostdlib
-    -e allocator_start
+    -e allocatorStart
     -Wl,--section-start=.multiboot=0x100000
 )
 
